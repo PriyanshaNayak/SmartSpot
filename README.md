@@ -3,6 +3,7 @@
 # Problem Statement 
 
 **SMART IN-CAMPUS CAR PARKING SYSTEM**
+
 Due to the increase in traffic on the national highway, it is difficult to reach the campus on time, and finding the nearest parking space for four-wheeler parking is tedious. Develop an intelligent application that provides a real-time parking slot within the campus as soon as the car enters the main gate. The empty parking space should be messaged to the user’s mobile whenever a person enters through the main entrance. Nowadays, traffic inside the campus has increased due to the hassle of four-wheeler vehicles. The increased traffic delays the work of people running on time. So usually, people park their vehicles in any undesirable slot blocking the road, which creates problems for other students and professors. This can also cause unwanted accidents inside a campus. The parking slots are not well used i.e. some parking areas are overfilled while others are still vacant. Mismanagement of the slots can also cause parking of vehicles on the roads as their desired parking place is full.
 
 # Introduction 
@@ -23,19 +24,26 @@ Looking into the problems, we have decided to build an application SLIDe which w
 
 ![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/1dfb470a-32a0-4a81-adc7-16fd5d9ef9cb)
 
-1. Once the application is launched on our device we have to register in case of a new user or login in case of a previous user. In the case of registering, we ask the user to enter their ID number(roll number, employee number), Vehicle Number, Phone Number, Default Sector, etc.
+<br>1. Once the application is launched on our device we have to register in case of a new user or login in case of a previous user. In the case of registering, we ask the user to enter their ID number(roll number, employee number), Vehicle Number, Phone Number, Default Sector, etc.
+
 <br>2. On clicking register, these details are sent to the backend server using a register API and saved to the database created on MongoDB. On successful
 registration, a user is forwarded to the dashboard. In login, the user is asked for their ID number and the password which is then verified with the database using the backend API of login which uses a hash. On successful login, the user is forwarded to the dashboard.
+
 <br>3. Here the user can book a parking spot for 30 minutes. The user enters their gate of entry and chooses between the default sector or any other sector they may be going to. Then using the free_space and nearest_park API we find the nearest free parking space and show it to the user. Then the user may choose the parking space and book it for 30 minutes after which it will be unbooked.
+
 <br>4. When the user enters the campus, the RFID Scanner sends an API request enter_campus to the backend along with the vehicle number, which in return checks whether the vehicle already has a booked parking spot or not. In case, it does not have one, it creates a new instance of the vehicle in the backend, and with the help of the free_space and nearest_park, it gets the nearest parking and assigns it.
+
 <br>5. Then using the location of the device the user is shown the way to the parking spot on its device application.
+
 <br>6. The problem may arise when the user doesn't park the vehicle at the instructed slot. This problem will be solved with the help of an IoT device kept inside the car. The device will contain a NodeMCU ESP32 microcontroller Board which will be used as the principal processing unit and a NEO-6M GPS Module to get the exact location of the vehicle on the campus.
+
 <br>7. The device starts once the vehicle enters the campus. It stores the exact location of the car till it is moving. Once the detected change in location is zero(0) for 15 minutes, it assumes the vehicle is stopped (parked) and sends the last location stored to the server. Which confirms that the vehicle is parked at the suggested location.
+
 <br>8. Next, when the user starts moving again from the parking spot it checks if the user has another booked parking spot. If not then it asks the user if he/she wants to go to another sector or out of campus. If the sector is changed it finds another spot and the cycle starts again. If not the instance of the vehicle is removed from the current environment and the spot is marked free.
 
 # Code Explanation 
 
-1. The following shows the explanation of the code for **integrating IR sensors**. Here's a breakdown of how the code works:
+**1. The following shows the explanation of the code for integrating IR sensors. Here's a breakdown of how the code works:**
 
 **Variable Declarations:**
 ir1, ir2, ir3, and ir4 are defined as integers with specific values corresponding to the Arduino pins to which the IR sensors are connected (12, 14, 27, and 26, respectively).
@@ -61,7 +69,7 @@ Serial.print(data1), Serial.print(data2), Serial.print(data3), Serial.println(da
 <br>4. The values printed will be either 0 or 1, representing the absence (0) or presence (1) of a vehicle or object at each sensor location.
 <br>5. In a practical scenario, you would typically use these sensor readings to make decisions or control other components of a traffic management system, such as traffic lights or barriers. For example, if a sensor detects a vehicle, it could trigger a specific action to manage traffic flow.
 
-2. The 2nd Arduino code is for an RFID-based smart vehicle traffic management system. It uses an MFRC522 RFID module to read RFID cards and obtain their unique identification numbers (UIDs). Below is an explanation of the key parts of the code:
+**2. The 2nd Arduino code is for an RFID-based smart vehicle traffic management system. It uses an MFRC522 RFID module to read RFID cards and obtain their unique identification numbers (UIDs). Below is an explanation of the key parts of the code:**
 
 **Libraries:**
 #include <SPI.h>: This library is for the Serial Peripheral Interface (SPI) communication, which is used for communication between the Arduino and the RFID module.
