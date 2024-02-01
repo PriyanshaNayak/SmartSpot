@@ -111,6 +111,120 @@ printHex(byte *buffer, byte bufferSize): Prints a byte array in hexadecimal form
 
 In a smart vehicle traffic management system, this code could be part of a larger system where RFID cards are associated with vehicles. When a vehicle with an RFID card approaches a certain point (e.g., a toll booth or parking entrance), the RFID module reads the card's UID, and the system can then take actions based on that information, such as opening a gate or deducting toll fees. The IP address parameter suggests a network-related functionality, but its purpose is not evident in the provided code.
 
+# API AND TECHNOLOGY TO BE USED
+
+**1. APIs Used:** 
+Google Map API- A powerful geolocation and mapping service provided by Google, offering functionalities like mapping, geocoding, and directions for developers to integrate into applications.
+<br>Blynk API- A mobile app development platform that provides an API for connecting IoT devices, allowing developers to build applications with real-time control and monitoring capabilities.
+<br>HTTP’s REST API- A standard set of rules and conventions over HTTP for building web services, enabling communication and data exchange between different software systems.
+
+**2. Technologies Used:**                       
+*Softwares*-                                    
+<br>React Native- A popular open-source framework for building cross-platform mobile applications using JavaScript and React, developed by Facebook.
+<br>Mongo-DB- A NoSQL database that stores data in flexible, JSON-like documents, providing scalability and high performance for modern applications.
+<br>Express- A minimal and flexible Node.js web application framework that simplifies the development of robust and scalable web applications.
+<br>Node.js- An open-source, server-side JavaScript runtime environment that allows the execution of JavaScript code on the server, facilitating scalable and event-driven applications.
+
+*Hardware*- 
+<br>Arduino- An open-source electronics platform based on easy-to-use hardware and software, widely used for creating interactive projects and prototypes.
+<br>Node MCU ESP32- A low-cost open-source IoT platform based on the ESP32 WiFi and Bluetooth module, offering a convenient development platform for IoT applications.
+<br>NEO-6M GPS Module- A compact GPS module that integrates a NEO-6M GPS receiver with an antenna, providing accurate positioning information for location-based applications.
+
+The frontend will be made using React Native which we will be calling using custom HTTP APIs made using Express.js and Node.js along with using Mongoose in the backend to access MongoDB.
+
+Mechanisms of parking and un-parking of a vehicle in the proposed system are demonstrated. At the entry gate visitors, parents and students receive a unique temporary RFID tag for their vehicles. These tags can be disposable or reusable as per requirement. The person gets a permanent RFID tag. These are categorized into two categories: permanent for higher administrative authorities and temporary for faculty and staff members. An RFID reader installed at the security gate gathers information from the issued tag.
+
+As soon as the tag is recognized, the camera fixed at the entry gate detects the **vehicle number, type, color, and name and details of the owner**. This becomes feasible because a unique RFID tag is issued to each user. The same is updated in the global database, local database, and administrator panel. As the vehicle approaches a particular parking space, two magnetometers detect its movement. They send the information to the local database for real-time updating of the counter and the global database for updating the administrative panel via the backend using internal HTTP API requests.
+
+# Hardware Circuit 
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/059651c2-9b92-428c-a2b0-b6c0a78b872d)
+
+# Procedure 
+
+1) Connect the IR sensors in a line on a breadboard after soldering their pins using a solder iron kit.
+2) An IR Sensor has the following parts: IR Receiver(photoelectric diode), IR Emitter LED, Distance Adjust(Potentiometer), Power LED, Obstacle LED, and 3 pins.
+3) The pins for the Vcc, Ground (GND), and Output(OUT) are connected to the respective positions of the breadboard using male-to-male jumper wires.
+4) Then take another breadboard and connect the ESP 32 on it.
+5) The GND of the ESP-32 was connected to the G pin of the IR sensor which is the ground pin. A voltage supply of 3.3 V was given as GPIO pins are not 5V tolerant. The OUT pins of IR1, IR2, IR3 and IR4 are connected to GPI012,GPI014,GPI027 and GPI026 pins of ESP-32 respectively. All the connections are done according to the ESP-32 Devkit pinout diagram.
+6) The power supply is given from the laptop using the USB Micro cable.
+7) Then, we write the Arduino code for testing the IR sensors. Then, compile and upload. While uploading, press the enable PIN of ESP32 until it is connected.
+8) After the testing, the distance sensitivity of all the sensors is set to the same level with the help of the potentiometer using a screwdriver.
+9) We tested it by bringing a piece of paper near to the circuit, and then all the sensors glow simultaneously.
+10) Now we do the RFID card reader testing. We connected another ESP-32 and RFID reader on the breadboard as shown. The pins of the ESP32 and RFID
+  Readers are connected according to the table given.
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/dc2cdd31-33cc-4a14-8b50-ff9534286d38)
+11)  Then, we write the following code on Arduino for the RFID reader.
+12)  Install the MFRC522 RFID library from https://github.com/miguelbalboa/rfid. Open Arduino IDE. Then go to and select Sketch->Include Library->Add. ZIP Library. Choose the rfid-master.zip file and click to Open.
+13) To add our MFRC522 RFID module, SPI device communication, and EEPROM memory libraries to our sketch, type #include <MFRC522.h>, #include <SPI.h> at the beginning of the code.
+14) In the void setup() function, start the serial connection at a 9600 baud rate. Then initiate the SPI connection between the RFID module and the MFRC522 RFID module
+between Arduino respectively.
+15) Click “Verify” and then “Upload” to compile and execute your codes. We made sure our COM3 port and board settings are set right and double
+checked the ground connections and all the wirings before running the code.
+
+# Output 
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/65808fff-7dd7-412e-9d53-1a5ed67cffd7)
+
+# UI UX of SLIDe App 
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/30345012-3f75-48a1-9ff2-d2eda3213c9a)
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/cc3af716-86e1-48f0-863b-e24f7fe4b007)
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/6c71574f-19a6-4062-9045-22dd8cc1462a)
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/fbe1b7f5-dbb2-40ac-8e14-a1fdbcb23c21)
+
+![image](https://github.com/PriyanshaNayak/SmartSpot/assets/87187181/9f1c9b4e-513e-45f1-bcb3-2c6f83db4dd0)
+
+# Algorithms Used 
+
+The proposed system makes efficient use of IoT, and machine learning algorithms such as Yolo, for object detection and image processing and hence for developing a smart parking system. It is a revolution in traditional parking. It provides an automatic, secure, and authorized parking system with minimum human intervention and power consumption. It allows real-time observation for several slots, in-time and out-time of a parked vehicle. Mechanisms of parking and un-parking of a vehicle in the proposed system are demonstrated. At the entry gate visitors, parents and students receive a unique temporary RFID tag for their vehicles. These tags can be disposable or reusable as per requirement. The person gets a permanent RFID tag. The permanent tags are categorized into two categories: permanent for higher administrative authorities and temporary for faculty and staff members. An RFID reader installed at the security gate gathers information from the issued tag. As soon as the tag is recognized as permanent or temporary, the camera fixed at the entry gate detects the vehicle number, type, color, and name and details of the employee/visitor/student. This becomes feasible because a unique RFID tag is issued to each visitor/employee/student. The same is updated in the global database, local database, and administrator panel. As the vehicle approaches a particular parking space, two magnetometers detect its movement. It sends the information to the local database for real-time updating of the counter and the global database for updating the administrative panel via the backend.  
+
+# Integration of Software and Hardware 
+
+To interface the website and real-time circuit, we sent the data/details of the registered
+user stored in ESP-32 to the MySQL Database. The steps are as follows;
+a) Setting up the IR Sensors.
+b) We make a code to get the sensor’s data into the serial monitor. The data contains the car’s identification number and slot to be occupied.
+c) Now, we reconfigure the database table. Create a new table named, Car I’d of long long type variable which stores the RFID number of the vehicle.
+d) Now, we write a code which will insert data into MySQL Database table.
+- >Create a folder in wamp64/www.
+-> Open new file and save it as connect php.
+e) The last step is to run a code which will send sensor values into database table which will have the following steps,
+i) Include libraries and defining variables, set up ssid password and host, initializeserial data transmission and sensors
+ii) Initialize WiFi connection
+iii) Get sensor values and print it to serial monitor
+iv) setup HTTP port
+f) Then, we can view the updated database.
+
+# Flowchart of the software used in every process of progression
+
+**> XAMPP → Apache Server**
+**What is XAMPP Server?**
+XAMPP is a free and open-source cross-platform web server solution stack package
+developed by Apache Friends, consisting mainly of the Apache HTTP Server, MariaDB
+database, and interpreters for scripts written in the PHP and Perl programming languages.
+
+**>Apache Server → Backend [MySQL, php]**
+What is the use of Apache in XAMPP Server?
+Apache Xampp is an open source tool used for running PHP or PERL Web applications
+locally using a Web server. It is available for all major operating systems and is popular
+with Windows users to locally build and test their Web apps.
+
+**> Anaconda [Spyder]**
+
+**> Visual Studio Code [ HTML,JAVASCRIPT,CSS]**
+
+# Real Life Impact 
+
+1. SLIDe is an intelligent parking system that assists drivers in finding a parking space.
+2. Available spaces are usually indicated using a mobile application or digital displays next to roads to navigate drivers to a vacant spot.
+3. The system includes the use of low maintenance battery powered wireless parking sensors to collect real-time data.
+4. The data is used to help drivers find available parking spaces without much hassle.
+
+
 
 
 
